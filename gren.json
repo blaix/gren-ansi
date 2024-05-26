@@ -1,0 +1,15 @@
+{
+    "type": "package",
+    "platform": "node",
+    "name": "blaix/gren-ansi",
+    "summary": "ASNI escape sequences for gren node apps",
+    "license": "BSD-3-Clause",
+    "version": "1.0.0",
+    "exposed-modules": [
+        "Ansi"
+    ],
+    "gren-version": "0.3.0 <= v < 0.4.0",
+    "dependencies": {
+        "gren-lang/core": "4.0.2 <= v < 5.0.0"
+    }
+}

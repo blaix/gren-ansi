@@ -1,0 +1,430 @@
+module Ansi exposing
+    ( escape
+    , prefix
+
+    -- Screen
+    , Direction(..)
+    , clearScreen
+    , clearLine
+
+    -- Color
+    , Color(..)
+    , wrapColor
+    , setColor
+
+    -- Cursor
+    , moveUpLines
+    , moveDownLines
+    , moveTo
+    , showCursor
+    , hideCursor
+    , getCursorReport
+
+    -- Keys
+    , arrowUp
+    , arrowDown
+    , arrowLeft
+    , arrowRight
+
+    -- Font styling
+    , FontWeight(..)
+    , wrapFontWeight
+    , setFontWeight
+    , wrapItalic
+    , wrapUnderline
+    , wrapStrikeThrough
+    , setItalic
+    , unsetItalic
+    , setUnderline
+    , unsetUnderline
+    , setStrikeThrough
+    , unsetStrikeThrough
+    )
+
+
+{-| Functions and strings to control the screen, cursor, and text in
+the terminal using ANSI escape sequences.
+
+    import Ansi
+    import Stream exposing (Stream)
+
+    coolGreeting : Stream -> Cmd msg
+    coolGreeting stdout =
+        "Hello!"
+            |> Ansi.wrapItalic
+            |> Ansi.wrapColor Ansi.Green
+            |> Stream.sendLine stdout
+
+## Text Color
+
+@docs wrapColor, setColor, Color
+
+## Text Styling
+
+@docs wrapFontWeight, setFontWeight, wrapItalic, wrapUnderline, wrapStrikeThrough, setItalic, unsetItalic, setUnderline, unsetUnderline, setStrikeThrough, unsetStrikeThrough, FontWeight
+
+## Clearing the Screen
+
+@docs clearScreen, clearLine, Direction
+
+## Controlling the Cursor
+
+@docs moveUpLines, moveDownLines, moveTo, showCursor, hideCursor, getCursorReport
+
+## Arrow Keys
+
+Use these functions if you are reading stdin and want to see if an arrow key was pressed.
+
+@docs arrowUp, arrowDown, arrowLeft, arrowRight
+
+## "Escape" hatch
+
+@docs prefix, escape
+
+-}
+
+{-| The beginning of most ANSI escape sequences (The `\e[` part).
+
+Use this to define your own ansi functions.
+For example, `setItalic` is defined like this:
+
+    setItalic : String
+    setItalic =
+        prefix ++ "3m"
+
+You can look up escape sequences [here](https://gist.github.com/fnky/458719343aabd01cfb17a3a4f7296797)
+or [here](https://en.wikipedia.org/wiki/ANSI_escape_code).
+
+If you create functions you think should be included in the package I'd love it if you sent a [pull request](https://github.com/blaix/gren-ansi/pulls).
+-}
+prefix : String
+prefix =
+    escape ++ "["
+
+
+{-| Unicode character for Escape (Esc).
+
+You would use this if you needed to compare or parse a string holding an escape sequence.
+-}
+escape : String
+escape =
+    "\u{001b}"
+
+
+-- SCREEN
+
+
+{-| Direction for clear functions.
+
+* Down: Clear things after the cursor.
+* Up: Clear things before the cursor.
+* Full: Clear both directions.
+-}
+type Direction
+    = Up
+    | Down
+    | Full
+
+
+{-| Clear screen in the given [Direction](#Direction).
+-}
+clearScreen : Direction -> String
+clearScreen direction =
+    prefix ++ (directionString direction) ++ "J"
+
+
+{-| Clear the current line in the given [direction](#Direction).
+-}
+clearLine : Direction -> String
+clearLine direction =
+    prefix ++ (directionString direction) ++ "K"
+
+
+directionString : Direction -> String
+directionString direction =
+    case direction of
+        Down ->
+            "0"
+
+        Up ->
+            "1"
+
+        Full ->
+            "2"
+
+
+-- COLOR
+
+
+{-| -}
+type Color
+    = NoColor
+    | Black
+    | Red
+    | Green
+    | Yellow
+    | Blue
+    | Magenta
+    | Cyan
+    | White
+
+
+{-| Display text in the given [color](#Color).
+
+This will return the string with a "set color" sequence at the beginning and a "no color" sequence at the end.
+-}
+wrapColor: Color -> String -> String
+wrapColor color string =
+    String.join ""
+        [ setColor color
+        , string
+        , setColor NoColor
+        ]
+
+
+{-| Change all subsequent terminal output to the given [color](#Color).
+
+This will persist even after program exit!
+So be sure to call `setColor NoColor` before exiting.
+-}
+setColor : Color -> String
+setColor color =
+    String.join ""
+        [ prefix
+        , colorCode color
+        , "m"
+        ]
+
+
+colorCode : Color -> String
+colorCode color_ =
+    case color_ of
+        NoColor -> "0"
+        Black -> "30"
+        Red -> "31"
+        Green -> "32"
+        Yellow -> "33"
+        Blue -> "34"
+        Magenta -> "35"
+        Cyan -> "36"
+        White -> "37"
+
+
+-- FONT STYLING
+
+
+{-| -}
+type FontWeight
+    = NormalWeight
+    | Bold
+    | Faint
+
+
+{-| Display string with the given [font weight](#FontWeight).
+-}
+wrapFontWeight : FontWeight -> String -> String
+wrapFontWeight weight string =
+    String.join ""
+        [ setFontWeight weight
+        , string
+        , setFontWeight NormalWeight
+        ]
+
+
+{-| Change all terminal output from this point to the given [font weight](#FontWeight) (even after program exit).
+-}
+setFontWeight : FontWeight -> String
+setFontWeight weight =
+    String.join ""
+        [ prefix
+        , fontWeightCode weight
+        , "m"
+        ]
+
+
+fontWeightCode : FontWeight -> String
+fontWeightCode weight =
+    case weight of
+        NormalWeight -> "22"
+        Bold -> "1"
+        Faint -> "2"
+
+
+{-| Display the given string as italic.
+-}
+wrapItalic : String -> String
+wrapItalic string =
+    String.join ""
+        [ setItalic
+        , string
+        , unsetItalic
+        ]
+
+
+{-| Display the given string as underline.
+-}
+wrapUnderline : String -> String
+wrapUnderline string =
+    String.join ""
+        [ setUnderline
+        , string
+        , unsetUnderline
+        ]
+
+
+{-| Display the given string with a strikethrough.
+-}
+wrapStrikeThrough : String -> String
+wrapStrikeThrough string =
+    String.join ""
+        [ setStrikeThrough
+        , string
+        , unsetStrikeThrough
+        ]
+
+
+{-| Change all terminal output from this point to italic (even after program exit).
+-}
+setItalic : String
+setItalic =
+    prefix ++ "3m"
+
+
+{-| Stop displaying terminal output as italic.
+-}
+unsetItalic : String
+unsetItalic =
+    prefix ++ "23m"
+
+
+{-| Change all terminal output from this point to underline (even after program exit).
+-}
+setUnderline : String
+setUnderline =
+    prefix ++ "4m"
+
+
+{-| Stop displaying terminal output as underline.
+-}
+unsetUnderline : String
+unsetUnderline =
+    prefix ++ "24m"
+
+
+{-| Change all terminal output from this point with a strikethrough (even after program exit).
+-}
+setStrikeThrough : String
+setStrikeThrough =
+    prefix ++ "9m"
+
+
+{-| Stop displaying terminal output with a strikethrough.
+-}
+unsetStrikeThrough : String
+unsetStrikeThrough =
+    prefix ++ "29m"
+
+
+-- CURSOR
+
+
+{-| Move the cursor up the given number of lines.
+-}
+moveUpLines : Int -> String
+moveUpLines n =
+    if n < 1 then
+        ""
+    else
+        prefix ++ (String.fromInt n) ++ "F"
+
+
+{-| Move the cursor down the given number of lines.
+-}
+moveDownLines : Int -> String
+moveDownLines n =
+    if n < 1 then
+        ""
+    else
+        prefix ++ (String.fromInt n) ++ "E"
+
+
+{-| Move cursor to the given row and column number of the visible terminal.
+-}
+moveTo : Int -> Int -> String
+moveTo row col =
+    String.join ""
+        [ prefix
+        , String.fromInt row
+        , ";"
+        , String.fromInt col
+        , "H"
+        ]
+
+
+{-| Hide the cursor.
+
+You should call [`showCursor`](#showCursor) before exiting your program, or the
+cursor will still be gone after exiting (gren-tui will handle this
+automatically if someone ctrl-c's out of your program).
+-}
+hideCursor : String
+hideCursor =
+    prefix ++ "?25l"
+
+
+{-| Show the cursor.
+-}
+showCursor : String
+showCursor =
+    prefix ++ "?25h"
+
+
+{-| Get the cursor position.
+
+After sending this sequence to stdout, a new sequence containing the cursor's
+column and row will be output. It will look like this: `ESC[n;mR` where
+`n` is the row and `m` is the column.
+
+To capture this, you probably want to be in [raw mode](https://packages.gren-lang.org/package/gren-lang/node/latest/module/Terminal#setStdInRawMode),
+and be [listening](https://packages.gren-lang.org/package/gren-lang/node/version/3.2.1/module/Stream#listen)
+on stdin. [`escape`](#escape) will be helpful here when checking the captured string.
+
+If you're using this in [gren-tui](https://github.com/blaix/gren-tui)
+you can include it in your `view` (or send it directly to an output stream).
+This will trigger an `update` with your `onInput` message
+holding a `CursorReport row column`.
+-}
+getCursorReport : String
+getCursorReport =
+    prefix ++ "6n"
+
+
+-- KEYS
+
+
+{-| ANSI escape sequence for the up arrow key.
+-}
+arrowUp : String
+arrowUp =
+    prefix ++ "A"
+
+
+{-| ANSI escape sequence for the down arrow key.
+-}
+arrowDown : String
+arrowDown =
+    prefix ++ "B"
+
+
+{-| ANSI escape sequence for the right arrow key.
+-}
+arrowRight : String
+arrowRight =
+    prefix ++ "C"
+
+
+{-| ANSI escape sequence for the left arrow key.
+-}
+arrowLeft : String
+arrowLeft =
+    prefix ++ "D"
