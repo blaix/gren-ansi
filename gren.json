@@ -2,7 +2,7 @@
     "type": "package",
     "platform": "node",
     "name": "blaix/gren-ansi",
-    "summary": "ASNI escape sequences for gren node apps",
+    "summary": "Control terminal text, cursor, and screen with ANSI escape sequences in Gren.",
     "license": "BSD-3-Clause",
     "version": "1.0.0",
     "exposed-modules": [

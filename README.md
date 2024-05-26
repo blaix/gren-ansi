@@ -1,6 +1,6 @@
 # Gren ANSI
 
-[ANSI escape sequences](https://en.wikipedia.org/wiki/ANSI_escape_code) for [gren](https://gren-lang.org/) [node](https://packages.gren-lang.org/package/gren-lang/node/latest/overview) apps.
+Control terminal text, cursor, and screen with ANSI escape sequences in Gren.
 
 ```elm
 import Ansi

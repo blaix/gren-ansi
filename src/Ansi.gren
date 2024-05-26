@@ -42,8 +42,7 @@ module Ansi exposing
     )
 
 
-{-| Functions and strings to control the screen, cursor, and text in
-the terminal using ANSI escape sequences.
+{-| Functions to control the screen, cursor, and text in the terminal using ANSI escape sequences.
 
     import Ansi
     import Stream exposing (Stream)
