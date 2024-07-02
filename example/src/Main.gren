@@ -1,0 +1,25 @@
+module Main exposing (main)
+
+
+import Ansi
+import Stream
+import Node exposing (Environment)
+import Init
+import Task
+
+
+main : Node.SimpleProgram a
+main =
+    Node.defineSimpleProgram init
+
+
+init : Environment -> Init.Task (Cmd a)
+init env =
+    "Hello, how are you?"
+        |> Ansi.wrapFontWeight Ansi.Bold
+        |> Ansi.wrapUnderline
+        |> Ansi.wrapItalic
+        |> Ansi.wrapColor Ansi.Blue
+        |> Stream.sendLine env.stdout
+        |> Task.execute
+        |> Node.endWithCmd
