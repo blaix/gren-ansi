@@ -2,7 +2,7 @@ with import <nixpkgs> {};
 mkShell {
   buildInputs = [
     bashInteractive
-    nodejs_18
+    nodejs_20
   ];
   shellHook = ''
     export PATH="$PWD/node_modules/.bin:$PATH"
