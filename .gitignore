@@ -1,4 +1,5 @@
 .envrc
 .gren
+docs.json
 example/app
 node_modules
