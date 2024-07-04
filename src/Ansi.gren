@@ -363,8 +363,7 @@ moveTo row col =
 {-| Hide the cursor.
 
 You should call [`showCursor`](#showCursor) before exiting your program, or the
-cursor will still be gone after exiting (gren-tui will handle this
-automatically if someone ctrl-c's out of your program).
+cursor will still be gone after exiting.
 -}
 hideCursor : String
 hideCursor =
@@ -388,10 +387,10 @@ To capture this, you probably want to be in [raw mode](https://packages.gren-lan
 and be [listening](https://packages.gren-lang.org/package/gren-lang/node/version/3.2.1/module/Stream#listen)
 on stdin. [`escape`](#escape) will be helpful here when checking the captured string.
 
-If you're using this in [gren-tui](https://github.com/blaix/gren-tui)
+If you're using this in [gren-tui](https://packages.gren-lang.org/package/blaix/gren-tui/version/latest/overview)
 you can include it in your `view` (or send it directly to an output stream).
 This will trigger an `update` with your `onInput` message
-holding a `CursorReport row column`.
+holding a [`CursorReport row column`](https://packages.gren-lang.org/package/blaix/gren-tui/version/latest/module/Tui#Input).
 -}
 getCursorReport : String
 getCursorReport =
