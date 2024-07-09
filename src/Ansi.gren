@@ -10,7 +10,9 @@ module Ansi exposing
     -- Color
     , Color(..)
     , wrapColor
+    , wrapBgColor
     , setColor
+    , setBgColor
 
     -- Cursor
     , moveUpLines
@@ -172,12 +174,21 @@ type Color
 
 This will return the string with a "set color" sequence at the beginning and a "no color" sequence at the end.
 -}
-wrapColor: Color -> String -> String
+wrapColor : Color -> String -> String
 wrapColor color string =
     String.join ""
         [ setColor color
         , string
         , setColor NoColor
+        ]
+
+
+wrapBgColor : Color -> String -> String
+wrapBgColor color string =
+    String.join ""
+        [ setBgColor color
+        , string
+        , setBgColor NoColor
         ]
 
 
@@ -195,10 +206,19 @@ setColor color =
         ]
 
 
+setBgColor : Color -> String
+setBgColor color =
+    String.join ""
+        [ prefix
+        , bgColorCode color
+        , "m"
+        ]
+
+
 colorCode : Color -> String
 colorCode color_ =
     case color_ of
-        NoColor -> "0"
+        NoColor -> "39"
         Black -> "30"
         Red -> "31"
         Green -> "32"
@@ -207,6 +227,20 @@ colorCode color_ =
         Magenta -> "35"
         Cyan -> "36"
         White -> "37"
+
+
+bgColorCode : Color -> String
+bgColorCode color_ =
+    case color_ of
+        NoColor -> "49"
+        Black -> "40"
+        Red -> "41"
+        Green -> "42"
+        Yellow -> "43"
+        Blue -> "44"
+        Magenta -> "45"
+        Cyan -> "46"
+        White -> "47"
 
 
 -- FONT STYLING
