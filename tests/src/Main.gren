@@ -1,0 +1,44 @@
+module Main exposing (main)
+
+
+import Ansi exposing (width)
+import Expect
+import Fuzz exposing (Fuzzer)
+import Test exposing (describe, fuzz, fuzz2, test)
+import Test.Runner.Node exposing (Program, run)
+
+
+fuzzAnsi : Fuzzer String
+fuzzAnsi =
+    Fuzz.oneOfValues
+        [ Ansi.setItalic
+        , Ansi.wrapItalic ""
+        , Ansi.getCursorReport
+        , Ansi.setBgColor Ansi.Yellow
+        , Ansi.arrowDown ++ Ansi.setColor Ansi.Blue
+        , Ansi.wrapUnderline (Ansi.wrapStrikeThrough "")
+        ]
+
+
+fuzzAscii : Int -> Fuzzer String
+fuzzAscii n =
+    Fuzz.asciiStringOfLength n
+
+
+main : Program
+main =
+    run <|
+        describe "width"
+            [ test "Zero width string" <| \_ ->
+                width "" |> Expect.equal 0
+            , fuzz fuzzAnsi "Zero width control character" <| \ansi ->
+                width ansi |> Expect.equal 0
+            , fuzz2 fuzzAnsi (fuzzAscii 5) "Mixed strings" <| \ansi ascii -> 
+                [ width ascii
+                , width (ansi ++ ascii)
+                , width (ascii ++ ansi)
+                , width (ansi ++ ascii ++ ansi)
+                ]
+                    |> Expect.equalArrays
+                        [ 5, 5, 5, 5 ]
+            ]

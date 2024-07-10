@@ -44,10 +44,6 @@ module Ansi exposing
 
     -- Querying
     , width
-    
-    -- TODO: don't expose
-    , strip
-    , regex
     )
 
 

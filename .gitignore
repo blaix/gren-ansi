@@ -3,3 +3,4 @@
 docs.json
 example/app
 node_modules
+tests/app
