@@ -1,3 +1,4 @@
-- [ ] Consider https://github.com/wolfadex/elm-ansi/blob/main/src/Ansi/String.elm
+- [X] Consider https://github.com/wolfadex/elm-ansi/blob/main/src/Ansi/String.elm
+- [ ] TODO comments
 - [ ] Add `unsetColor`
 - [ ] == Release next version ==
