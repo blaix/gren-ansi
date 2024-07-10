@@ -6,7 +6,7 @@ Control terminal text, cursor, and screen with ANSI escape sequences in Gren.
 import Ansi
 import Stream exposing (Stream)
 
-coolGreeting : Stream -> Cmd msg
+coolGreeting : Stream -> Task Never {}
 coolGreeting stdout =
     "Hello!"
         |> Ansi.wrapItalic
