@@ -1,1 +1,2 @@
 - [ ] Consider https://github.com/wolfadex/elm-ansi/blob/main/src/Ansi/String.elm
+- [ ] Add `unsetColor`
