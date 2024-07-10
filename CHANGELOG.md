@@ -1,7 +1,18 @@
-# 2.0.0
+# Next
+
+## New features
+
+* add `setBgColor` and `addBgColor`
+* add `width` for escape-sequence-aware width of string in visible terminal columns
+
+## Fixes
+
+* `NoColor` now switches to default term color instead of removing all formatting
+
+# 2.0.0 (2024-07-04)
 
 * Update to gren 0.4.4
 
-# 1.0.0
+# 1.0.0 (2024-05-26)
 
 * Initial version
