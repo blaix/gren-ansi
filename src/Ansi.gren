@@ -13,6 +13,8 @@ module Ansi exposing
     , wrapBgColor
     , setColor
     , setBgColor
+    , unsetColor
+    , unsetBgColor
 
     -- Cursor
     , moveUpLines
@@ -214,6 +216,11 @@ setColor color =
         ]
 
 
+unsetColor : String
+unsetColor =
+    setColor NoColor
+
+
 setBgColor : Color -> String
 setBgColor color =
     String.join ""
@@ -221,6 +228,11 @@ setBgColor color =
         , bgColorCode color
         , "m"
         ]
+
+
+unsetBgColor : String
+unsetBgColor =
+    setBgColor NoColor
 
 
 colorCode : Color -> String
