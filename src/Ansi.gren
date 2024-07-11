@@ -44,6 +44,7 @@ module Ansi exposing
     , unsetUnderline
     , setStrikeThrough
     , unsetStrikeThrough
+    , reset
 
     -- Querying
     , width
@@ -68,7 +69,7 @@ module Ansi exposing
 
 ## Styling
 
-@docs wrapFontWeight, setFontWeight, unsetFontWeight, wrapItalic, wrapUnderline, wrapStrikeThrough, setItalic, unsetItalic, setUnderline, unsetUnderline, setStrikeThrough, unsetStrikeThrough, FontWeight
+@docs FontWeight, wrapFontWeight, setFontWeight, unsetFontWeight, wrapItalic, wrapUnderline, wrapStrikeThrough, setItalic, unsetItalic, setUnderline, unsetUnderline, setStrikeThrough, unsetStrikeThrough, reset
 
 ## Clearing the Screen
 
@@ -402,6 +403,13 @@ setStrikeThrough =
 unsetStrikeThrough : String
 unsetStrikeThrough =
     prefix ++ "29m"
+
+
+{-| Reset all colors and styles to default.
+-}
+reset : String
+reset =
+    prefix ++ "0m"
 
 
 -- CURSOR
