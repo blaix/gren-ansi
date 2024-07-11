@@ -34,6 +34,7 @@ module Ansi exposing
     , FontWeight(..)
     , wrapFontWeight
     , setFontWeight
+    , unsetFontWeight
     , wrapItalic
     , wrapUnderline
     , wrapStrikeThrough
@@ -67,7 +68,7 @@ module Ansi exposing
 
 ## Styling
 
-@docs wrapFontWeight, setFontWeight, wrapItalic, wrapUnderline, wrapStrikeThrough, setItalic, unsetItalic, setUnderline, unsetUnderline, setStrikeThrough, unsetStrikeThrough, FontWeight
+@docs wrapFontWeight, setFontWeight, unsetFontWeight, wrapItalic, wrapUnderline, wrapStrikeThrough, setItalic, unsetItalic, setUnderline, unsetUnderline, setStrikeThrough, unsetStrikeThrough, FontWeight
 
 ## Clearing the Screen
 
@@ -299,7 +300,10 @@ wrapFontWeight weight string =
         ]
 
 
-{-| Change all terminal output from this point to the given [font weight](#FontWeight) (even after program exit).
+{-| Change all subsequent terminal output to the given [font weight](#FontWeight).
+
+This will persist even after program exit!
+So be sure to call [`unsetFontWeight`](#unsetFontWeight) before exiting.
 -}
 setFontWeight : FontWeight -> String
 setFontWeight weight =
@@ -308,6 +312,13 @@ setFontWeight weight =
         , fontWeightCode weight
         , "m"
         ]
+
+
+{-| Change all subsequent terminal output to the term default font weight.
+-}
+unsetFontWeight : String
+unsetFontWeight =
+    setFontWeight NormalWeight
 
 
 fontWeightCode : FontWeight -> String

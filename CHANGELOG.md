@@ -3,7 +3,7 @@
 ## New features
 
 * add `setBgColor` and `addBgColor`
-* add `unsetColor` and `unsetBgColor`
+* add `unsetColor`, `unsetBgColor`, and `unsetFontWeight`
 * add `width` for escape-sequence-aware width of string in visible terminal columns
 
 ## Fixes
