@@ -4,14 +4,15 @@ module Main exposing (main)
 import Ansi exposing (width)
 import Expect
 import Fuzz exposing (Fuzzer)
-import Test exposing (describe, fuzz, fuzz2, test)
+import Test exposing (describe, fuzz2, fuzz3, test)
 import Test.Runner.Node exposing (Program, run)
 
 
-fuzzAnsi : Fuzzer String
-fuzzAnsi =
+width0 : Fuzzer String
+width0 =
     Fuzz.oneOfValues
-        [ Ansi.setItalic
+        [ ""
+        , Ansi.setItalic
         , Ansi.wrapItalic ""
         , Ansi.getCursorReport
         , Ansi.setBgColor Ansi.Yellow
@@ -20,25 +21,36 @@ fuzzAnsi =
         ]
 
 
-fuzzAscii : Int -> Fuzzer String
-fuzzAscii n =
-    Fuzz.asciiStringOfLength n
+width5 : Fuzzer String
+width5 =
+    Fuzz.asciiStringOfLength 5
 
 
 main : Program
 main =
     run <|
         describe "width"
-            [ test "Zero width string" <| \_ ->
-                width "" |> Expect.equal 0
-            , fuzz fuzzAnsi "Zero width control character" <| \ansi ->
-                width ansi |> Expect.equal 0
-            , fuzz2 fuzzAnsi (fuzzAscii 5) "Mixed strings" <| \ansi ascii -> 
-                [ width ascii
-                , width (ansi ++ ascii)
-                , width (ascii ++ ansi)
-                , width (ansi ++ ascii ++ ansi)
-                ]
-                    |> Expect.equalArrays
-                        [ 5, 5, 5, 5 ]
+            [ fuzz3 width0 width0 width0 "Zero width" <| 
+                \zero1 zero2 zero3 ->
+                    [ width <| zero1
+                    , width <| zero2 ++ ""
+                    , width <| "" ++ zero3
+                    , width <| zero1 ++ zero2
+                    , width <| zero1 ++ "" ++ zero2
+                    , width <| zero1 ++ zero2 ++ zero3
+                    ]
+                        |> Expect.equalArrays
+                            [ 0, 0, 0, 0, 0, 0 ]
+
+            , fuzz2 width5 width0 "Greater than zero width" <| 
+                \five zero -> 
+                    [ width <| five
+                    , width <| zero ++ five
+                    , width <| five ++ zero
+                    , width <| zero ++ five ++ zero
+                    , width <| Ansi.wrapColor Ansi.Green five
+                    , width <| zero ++ five ++ zero ++ zero ++ five
+                    ]
+                        |> Expect.equalArrays
+                            [ 5, 5, 5, 5, 5, 10 ]
             ]
