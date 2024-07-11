@@ -2,3 +2,5 @@
 - [X] Test width function
 - [X] Add `unsetColor` and `unsetBgColor`
 - [ ] == Release next version ==
+- [ ] Bright color variants
+- [ ] 256 color support?
