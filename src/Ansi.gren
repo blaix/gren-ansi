@@ -61,11 +61,11 @@ module Ansi exposing
             |> Ansi.wrapColor Ansi.Green
             |> Stream.sendLine stdout
 
-## Text Color
+## Colors
 
-@docs wrapColor, setColor, Color
+@docs Color, wrapColor, wrapBgColor, setColor, unsetColor, setBgColor, unsetBgColor
 
-## Text Styling
+## Styling
 
 @docs wrapFontWeight, setFontWeight, wrapItalic, wrapUnderline, wrapStrikeThrough, setItalic, unsetItalic, setUnderline, unsetUnderline, setStrikeThrough, unsetStrikeThrough, FontWeight
 
@@ -83,9 +83,9 @@ Use these functions if you are reading stdin and want to see if an arrow key was
 
 @docs arrowUp, arrowDown, arrowLeft, arrowRight
 
-## "Escape" hatch
+## Helpers
 
-@docs prefix, escape
+@docs width, prefix, escape
 
 -}
 
@@ -182,7 +182,8 @@ type Color
 
 {-| Display text in the given [color](#Color).
 
-This will return the string with a "set color" sequence at the beginning and a "no color" sequence at the end.
+This will return the string with a "set color" sequence at the beginning and a
+"no color" sequence at the end.
 -}
 wrapColor : Color -> String -> String
 wrapColor color string =
@@ -193,6 +194,11 @@ wrapColor color string =
         ]
 
 
+{-| Display text with the given background [color](#Color).
+
+This will return the string with a "set background color" sequence at the
+beginning and a "default background color" sequence at the end.
+-}
 wrapBgColor : Color -> String -> String
 wrapBgColor color string =
     String.join ""
@@ -205,7 +211,7 @@ wrapBgColor color string =
 {-| Change all subsequent terminal output to the given [color](#Color).
 
 This will persist even after program exit!
-So be sure to call `setColor NoColor` before exiting.
+So be sure to call [`unsetColor`](#unsetColor) before exiting.
 -}
 setColor : Color -> String
 setColor color =
@@ -216,11 +222,18 @@ setColor color =
         ]
 
 
+{-| Change all subsequent terminal output to the default term color.
+-}
 unsetColor : String
 unsetColor =
     setColor NoColor
 
 
+{-| Change background of all subsequent terminal output to the given [color](#Color).
+
+This will persist even after program exit!
+So be sure to call [`unsetBgColor`](#unsetBgColor) before exiting.
+-}
 setBgColor : Color -> String
 setBgColor color =
     String.join ""
@@ -230,6 +243,8 @@ setBgColor color =
         ]
 
 
+{-| Change background of all subsequent terminal output to the default term color.
+-}
 unsetBgColor : String
 unsetBgColor =
     setBgColor NoColor
