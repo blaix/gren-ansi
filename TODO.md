@@ -1,5 +1,4 @@
 - [X] Consider https://github.com/wolfadex/elm-ansi/blob/main/src/Ansi/String.elm
 - [X] Test width function
-- [ ] TODO comments
 - [ ] Add `unsetColor`
 - [ ] == Release next version ==
