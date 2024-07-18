@@ -4,6 +4,7 @@
 - [ ] replace exposed custom types with functions to avoid breaking changes when adding colors
 - [ ] moveTo should take a record instead of positional arguments for row and column
   - [ ] other functions like this?
+- [ ] Port Parser from https://github.com/wolfadex/elm-ansi/blob/main/src/Ansi/Parser.elm
 - [ ] == Release next version ==
 - [ ] Bright color variants
 - [ ] 256 color support?
