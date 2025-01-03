@@ -2,11 +2,6 @@ module Ansi exposing
     ( escape
     , prefix
 
-    -- Screen
-    , Direction(..)
-    , clearScreen
-    , clearLine
-
     -- Color
     , Color(..)
     , wrapColor
@@ -71,10 +66,6 @@ module Ansi exposing
 
 @docs FontWeight, wrapFontWeight, setFontWeight, unsetFontWeight, wrapItalic, wrapUnderline, wrapStrikeThrough, setItalic, unsetItalic, setUnderline, unsetUnderline, setStrikeThrough, unsetStrikeThrough, reset
 
-## Clearing the Screen
-
-@docs clearScreen, clearLine, Direction
-
 ## Controlling the Cursor
 
 @docs moveUpLines, moveDownLines, moveTo, showCursor, hideCursor, getCursorReport
@@ -122,48 +113,6 @@ You would use this if you needed to compare or parse a string holding an escape 
 escape : String
 escape =
     "\u{001b}"
-
-
--- SCREEN
-
-
-{-| Direction for clear functions.
-
-* Down: Clear things after the cursor.
-* Up: Clear things before the cursor.
-* Full: Clear both directions.
--}
-type Direction
-    = Up
-    | Down
-    | Full
-
-
-{-| Clear screen in the given [Direction](#Direction).
--}
-clearScreen : Direction -> String
-clearScreen direction =
-    prefix ++ (directionString direction) ++ "J"
-
-
-{-| Clear the current line in the given [direction](#Direction).
--}
-clearLine : Direction -> String
-clearLine direction =
-    prefix ++ (directionString direction) ++ "K"
-
-
-directionString : Direction -> String
-directionString direction =
-    case direction of
-        Down ->
-            "0"
-
-        Up ->
-            "1"
-
-        Full ->
-            "2"
 
 
 -- COLOR

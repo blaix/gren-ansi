@@ -2,6 +2,7 @@
 - [X] Test width function
 - [X] Add `unsetColor` and `unsetBgColor`
 - [ ] replace exposed custom types with functions to avoid breaking changes when adding colors
+  - [ ] moving things into modules as part of this change (IN PROGRESS)
 - [ ] moveTo should take a record instead of positional arguments for row and column
   - [ ] other functions like this?
 - [ ] Port Parser from https://github.com/wolfadex/elm-ansi/blob/main/src/Ansi/Parser.elm

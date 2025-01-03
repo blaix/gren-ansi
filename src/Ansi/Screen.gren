@@ -1,0 +1,80 @@
+module Ansi.Screen exposing
+    ( clear
+    , clearLine
+    , before
+    , after
+    , full
+    )
+
+{-| Functions to manipulate the terminal screen.
+
+@docs clear, clearLine
+
+## Direction
+
+Specify where you want to apply your changes:
+before the cursor, after the cursor, or the full screen.
+
+@docs before, after, full
+
+-}
+
+
+import Ansi
+
+
+type Direction
+    = Before
+    | After
+    | Full
+
+
+{-| Clear screen in the given [Direction](#Direction).
+-}
+clear: Direction -> String
+clear direction =
+    Ansi.prefix ++ (directionString direction) ++ "J"
+
+
+{-| Clear the current line in the given [direction](#Direction).
+-}
+clearLine : Direction -> String
+clearLine direction =
+    Ansi.prefix ++ (directionString direction) ++ "K"
+
+
+-- Direction
+
+
+{-| Apply to text before the cursor.
+-}
+before : Direction
+before =
+    Before
+
+
+{-| Apply to text after the cursor.
+-}
+after : Direction
+after =
+    After
+
+
+{-| Apply to the whole screen.
+-}
+full : Direction
+full =
+    Full
+
+
+directionString : Direction -> String
+directionString direction =
+    case direction of
+        After ->
+            "0"
+
+        Before ->
+            "1"
+
+        Full ->
+            "2"
