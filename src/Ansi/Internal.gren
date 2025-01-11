@@ -20,7 +20,7 @@ type EastAsianCharWidth
 
 eastAsianWidth : String -> Maybe EastAsianCharWidth
 eastAsianWidth character =
-    case String.toArray character of
+    when String.toArray character is
         [ char ] ->
             eastAsianWidthHelper
                 (Char.toCode char)

@@ -203,7 +203,7 @@ unsetBgColor =
 
 colorCode : Color -> String
 colorCode color_ =
-    case color_ of
+    when color_ is
         NoColor -> "39"
         Black -> "30"
         Red -> "31"
@@ -217,7 +217,7 @@ colorCode color_ =
 
 bgColorCode : Color -> String
 bgColorCode color_ =
-    case color_ of
+    when color_ is
         NoColor -> "49"
         Black -> "40"
         Red -> "41"
@@ -273,7 +273,7 @@ unsetFontWeight =
 
 fontWeightCode : FontWeight -> String
 fontWeightCode weight =
-    case weight of
+    when weight is
         NormalWeight -> "22"
         Bold -> "1"
         Faint -> "2"
@@ -508,7 +508,7 @@ width str =
                         total
 
                     else
-                        case Ansi.Internal.eastAsianWidth (String.fromChar char) of
+                        when Ansi.Internal.eastAsianWidth (String.fromChar char) is
                             Just FullWidth ->
                                 total + 2
 

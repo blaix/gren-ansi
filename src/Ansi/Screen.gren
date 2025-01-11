@@ -69,7 +69,7 @@ full =
 
 directionString : Direction -> String
 directionString direction =
-    case direction of
+    when direction is
         After ->
             "0"
 
