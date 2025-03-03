@@ -11,7 +11,7 @@
             "gren-lang/core": "6.0.0",
             "gren-lang/node": "5.0.0",
             "gren-lang/test": "4.0.0",
-            "gren-lang/test-runner-node": "5.0.0"
+            "gren-lang/test-runner-node": "5.0.1"
         },
         "indirect": {
             "gren-lang/url": "5.0.0"

@@ -4,7 +4,7 @@ module Main exposing (main)
 import Ansi exposing (width)
 import Expect
 import Fuzz exposing (Fuzzer)
-import Test exposing (describe, fuzz2, fuzz3, test)
+import Test exposing (describe, fuzz2, fuzz3, test, only)
 import Test.Runner.Node exposing (Program, run)
 
 
@@ -53,4 +53,138 @@ main =
                     ]
                         |> Expect.equalArrays
                             [ 5, 5, 5, 5, 5, 10 ]
+
+            , test "ansi widths" <| \_ ->
+                [ width <| Ansi.setItalic
+                , width <| Ansi.wrapItalic ""
+                , width <| Ansi.getCursorReport
+                , width <| Ansi.setBgColor Ansi.Yellow
+                , width <| Ansi.setColor Ansi.Blue
+                , width <| Ansi.arrowDown
+                , width <| Ansi.wrapUnderline ""
+                , width <| Ansi.wrapStrikeThrough ""
+                ]
+                    |> Expect.equalArrays
+                        [ 0
+                        , 0
+                        , 0
+                        , 0
+                        , 0
+                        , 0
+                        , 0
+                        , 0
+                        ]
+
+            , test "chinese characters" <| \_ ->
+                [ width "汉"
+                , width "字"
+                , width "字"
+                , width "/漢"
+                ]
+                    |> Expect.equalArrays
+                        [ 2
+                        , 2
+                        , 2
+                        , 3
+                        ]
+
+            , test "unicode arrows" <| \_ ->
+                [ width <| "↖"
+                ]
+                    |> Expect.equalArrays
+                        [ 1
+                        ]
+
+            , test "unicode stars" <| \_ ->
+                [ width <| "✶"
+                , width <| "✸"
+                , width <| "✹"
+                , width <| "✺"
+                , width <| "✹"
+                , width <| "✷"
+                ]
+                    |> Expect.equalArrays
+                        [ 1
+                        , 1
+                        , 1
+                        , 1
+                        , 1
+                        , 1
+                        ]
+
+            , test "misc emojis" <| \_ ->
+                [ width <| "🌈"
+                , width <| "⛄️"
+                , width <| "✨"
+                , width <| "🤜"
+                , width <| "🤛"
+                , width <| "🤛\u{FE0F}" -- emoji with a variation selector
+                ]
+                    |> Expect.equalArrays
+                        [ 2
+                        , 2
+                        , 2
+                        , 2
+                        , 2
+                        , 2
+                        ]
+
+            , test "unicode shapes" <| \_ ->
+                [ width <| "🟠"
+                , width <| "🟡"
+                , width <| "🟢"
+                , width <| "🟣"
+                , width <| "🟤"
+                , width <| "🟥"
+                , width <| "🟦"
+                , width <| "🟧"
+                , width <| "🟨"
+                , width <| "🟩"
+                , width <| "🟪"
+                , width <| "🟫"
+                ]
+                    |> Expect.equalArrays
+                        [ 2
+                        , 2
+                        , 2
+                        , 2
+                        , 2
+                        , 2
+                        , 2
+                        , 2
+                        , 2
+                        , 2
+                        , 2
+                        , 2
+                        ]
+
+
+            , test "shogi pieces" <| \_ ->
+                [ width "☗"
+                , width "☖"
+                ]
+                    |> Expect.equalArrays
+                        [ 1
+                        , 1
+                        ]
+                        
+            , test "invisible characters that take up space" <| \_ ->
+                [ width <| "\u{3000}" -- ideographic space
+                ]
+                    |> Expect.equalArrays
+                        [ 2
+                        ]
+            
+            , test "unicode hamburgers" <| \_ ->
+                -- these visiually take up slightly more than one space,
+                -- but spacially only take up a single space.
+                [ width <| "☱"
+                , width <| "☲"
+                , width <| "☴"
+                ]
+                    |> Expect.equalArrays
+                        [ 1
+                        , 1
+                        , 1
+                        ]
             ]

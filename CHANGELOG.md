@@ -1,3 +1,7 @@
+# Next
+
+* Complete overhaul of `Ansi.width`, fixing lots of edge cases.
+
 # 3.0.0 (2025-01-01)
 
 * Update to latest gren (0.5 / 24W)
