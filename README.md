@@ -4,14 +4,12 @@ Control terminal text, cursor, and screen with ANSI escape sequences in Gren.
 
 ```elm
 import Ansi
-import Stream exposing (Stream)
 
-coolGreeting : Stream -> Task Never {}
-coolGreeting stdout =
+coolGreeting : String -> String
+coolGreeting =
     "Hello!"
         |> Ansi.wrapItalic
         |> Ansi.wrapColor Ansi.Green
-        |> Stream.sendLine stdout
 ```
 
 See [Ansi module docs](https://packages.gren-lang.org/package/blaix/gren-ansi/latest/module/Ansi) for everything that's available.
