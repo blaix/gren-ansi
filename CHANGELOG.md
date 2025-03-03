@@ -1,5 +1,6 @@
-# Next
+# 3.1.0 (2025-03-02)
 
+* Expose `Ansi.strip`
 * Complete overhaul of `Ansi.width`, fixing lots of edge cases.
 
 # 3.0.0 (2025-01-01)

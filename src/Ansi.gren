@@ -43,6 +43,7 @@ module Ansi exposing
 
     -- Util
     , width
+    , strip
     )
 
 
@@ -78,7 +79,7 @@ Use these functions if you are reading stdin and want to see if an arrow key was
 
 ## Helpers
 
-@docs width, prefix, escape
+@docs width, strip, prefix, escape
 
 -}
 
