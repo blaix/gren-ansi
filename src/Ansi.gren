@@ -49,16 +49,6 @@ module Ansi exposing
 
 {-| Functions to control the screen, cursor, and text in the terminal using ANSI escape sequences.
 
-    import Ansi
-    import Stream exposing (Stream)
-
-    coolGreeting : Stream -> Cmd msg
-    coolGreeting stdout =
-        "Hello!"
-            |> Ansi.wrapItalic
-            |> Ansi.wrapColor Ansi.Green
-            |> Stream.sendLine stdout
-
 ## Colors
 
 @docs Color, wrapColor, wrapBgColor, setColor, unsetColor, setBgColor, unsetBgColor
