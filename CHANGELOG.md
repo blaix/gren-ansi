@@ -1,3 +1,7 @@
+# 3.1.1 (2025-03-02)
+
+* More `Ansi.width` edge case fixes.
+
 # 3.1.0 (2025-03-02)
 
 * Expose `Ansi.strip`

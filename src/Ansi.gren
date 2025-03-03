@@ -509,6 +509,11 @@ widthReducer char total =
         total + 1
             -- |> Debug.log "shogi piece"
 
+    -- block of misc 1-wide unicode symbols
+    else if codePoint >= 0x270E && codePoint <= 0x2727 then
+        total + 1
+            -- |> Debug.log "misc 1-wide"
+
     else if isCJK codePoint then
         total + 2
             -- |> Debug.log "cjk"
@@ -540,6 +545,7 @@ regex =
 
 -- CODE POINT HELPERS
 
+-- https://www.compart.com/en/unicode is helpful here
 
 zeroWidth : Int -> Bool
 zeroWidth codePoint =

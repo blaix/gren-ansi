@@ -95,16 +95,40 @@ main =
                         [ 1
                         ]
 
-            , test "unicode stars" <| \_ ->
-                [ width <| "✶"
-                , width <| "✸"
-                , width <| "✹"
-                , width <| "✺"
-                , width <| "✹"
-                , width <| "✷"
+            , test "block of single-wide unicode symbols" <| \_ ->
+                [ width "✎" -- 0x270E
+                , width "✏"
+                , width "✐"
+                , width "✑"
+                , width "✒"
+                , width "✓"
+                , width "✔"
+                , width "✕"
+                , width "✖"
+                , width "✗"
+                , width "✘"
+                , width "✙"
+                , width "✚"
+                , width "✛"
+                , width "✜"
+                , width "✝"
+                , width "✦"
+                , width "✧" -- 0x2727
                 ]
                     |> Expect.equalArrays
                         [ 1
+                        , 1
+                        , 1
+                        , 1
+                        , 1
+                        , 1
+                        , 1
+                        , 1
+                        , 1
+                        , 1
+                        , 1
+                        , 1
+                        , 1
                         , 1
                         , 1
                         , 1
