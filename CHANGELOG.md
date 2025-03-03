@@ -1,6 +1,6 @@
-# 3.1.2 (2025-03-02)
+# 3.1.2 - 3.1.3 (2025-03-02)
 
-* Fix outdated Stream code in docs
+* Remove outdated Stream code in docs
 
 # 3.1.1 (2025-03-02)
 
