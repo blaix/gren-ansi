@@ -1,3 +1,7 @@
+# Next
+
+* Add `f1` - `f4` functions for function keys
+
 # 3.1.2 - 3.1.3 (2025-03-02)
 
 * Remove outdated Stream code in docs

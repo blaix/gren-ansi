@@ -24,6 +24,10 @@ module Ansi exposing
     , arrowDown
     , arrowLeft
     , arrowRight
+    , f1
+    , f2
+    , f3
+    , f4
 
     -- Font styling
     , FontWeight(..)
@@ -66,6 +70,10 @@ module Ansi exposing
 Use these functions if you are reading stdin and want to see if an arrow key was pressed.
 
 @docs arrowUp, arrowDown, arrowLeft, arrowRight
+
+## Function Keys
+
+@docs f1, f2, f3, f4
 
 ## Helpers
 
@@ -453,6 +461,34 @@ arrowRight =
 arrowLeft : String
 arrowLeft =
     prefix ++ "D"
+
+
+{-| ANSI escape sequence for the F1 key.
+-}
+f1 : String
+f1 =
+    escape ++ "OP"
+
+
+{-| ANSI escape sequence for the F2 key.
+-}
+f2 : String
+f2 =
+    escape ++ "OQ"
+
+
+{-| ANSI escape sequence for the F3 key.
+-}
+f3 : String
+f3 =
+    escape ++ "OR"
+
+
+{-| ANSI escape sequence for the F4 key.
+-}
+f4 : String
+f4 =
+    escape ++ "OS"
 
 
 -- UTIL
