@@ -1,4 +1,4 @@
-# Next
+# 3.2.0 (2025-03-04)
 
 * Add `f1` - `f4` functions for function keys
 
