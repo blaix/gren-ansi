@@ -1,0 +1,17 @@
+{
+  "$schema":  "https://raw.githubusercontent.com/jetify-com/devbox/0.16.0/.schema/devbox.schema.json",
+  "packages": ["gren@0.6.3"],
+  "shell": {
+    "init_hook": [
+      "echo 'Welcome to devbox!' > /dev/null"
+    ],
+    "scripts": {
+      "test": [
+        "cd tests && gren run Main"
+      ],
+      "validate": [
+        "gren make && devbox run test && gren docs && gren package validate"
+      ]
+    }
+  }
+}

@@ -1,3 +1,7 @@
+# 4.0.0 (2026-01-07)
+
+* Update to Gren 0.6
+
 # 3.2.0 (2025-03-04)
 
 * Add `f1` - `f4` functions for function keys

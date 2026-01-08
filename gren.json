@@ -4,13 +4,13 @@
     "name": "blaix/gren-ansi",
     "summary": "Control terminal text, cursor, and screen with ANSI escape sequences in Gren.",
     "license": "BSD-3-Clause",
-    "version": "3.2.0",
+    "version": "4.0.0",
     "exposed-modules": [
         "Ansi",
         "Ansi.Screen"
     ],
-    "gren-version": "0.5.2 <= v < 0.6.0",
+    "gren-version": "0.6.0 <= v < 0.7.0",
     "dependencies": {
-        "gren-lang/core": "6.0.0 <= v < 7.0.0"
+        "gren-lang/core": "7.0.0 <= v < 8.0.0"
     }
 }
