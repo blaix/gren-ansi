@@ -4,15 +4,15 @@
     "source-directories": [
         "src"
     ],
-    "gren-version": "0.4.4",
+    "gren-version": "0.6.5",
     "dependencies": {
         "direct": {
             "blaix/gren-ansi": "local:..",
-            "gren-lang/core": "5.0.1",
-            "gren-lang/node": "4.1.1"
+            "gren-lang/core": "7.4.0",
+            "gren-lang/node": "6.1.1"
         },
         "indirect": {
-            "gren-lang/url": "4.0.0"
+            "gren-lang/url": "6.0.0"
         }
     }
 }

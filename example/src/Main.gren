@@ -2,7 +2,7 @@ module Main exposing (main)
 
 
 import Ansi
-import Stream
+import Stream.Log
 import Node exposing (Environment)
 import Init
 import Task
@@ -20,6 +20,7 @@ init env =
         |> Ansi.wrapUnderline
         |> Ansi.wrapItalic
         |> Ansi.wrapColor Ansi.Blue
-        |> Stream.sendLine env.stdout
-        |> Task.execute
-        |> Node.endWithCmd
+        |> String.append " "
+        |> String.append (Ansi.wrapInverse "u good?!")
+        |> Stream.Log.line env.stdout
+        |> Node.endSimpleProgram

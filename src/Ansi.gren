@@ -37,12 +37,15 @@ module Ansi exposing
     , wrapItalic
     , wrapUnderline
     , wrapStrikeThrough
+    , wrapInverse
     , setItalic
     , unsetItalic
     , setUnderline
     , unsetUnderline
     , setStrikeThrough
     , unsetStrikeThrough
+    , setInverse
+    , unsetInverse
     , reset
 
     -- Util
@@ -59,7 +62,7 @@ module Ansi exposing
 
 ## Styling
 
-@docs FontWeight, wrapFontWeight, setFontWeight, unsetFontWeight, wrapItalic, wrapUnderline, wrapStrikeThrough, setItalic, unsetItalic, setUnderline, unsetUnderline, setStrikeThrough, unsetStrikeThrough, reset
+@docs FontWeight, wrapFontWeight, setFontWeight, unsetFontWeight, wrapItalic, wrapUnderline, wrapStrikeThrough, wrapInverse, setItalic, unsetItalic, setUnderline, unsetUnderline, setStrikeThrough, unsetStrikeThrough, setInverse, unsetInverse, reset
 
 ## Controlling the Cursor
 
@@ -310,6 +313,17 @@ wrapStrikeThrough string =
         ]
 
 
+{-| Display the given string with inverted foreground and background colors.
+-}
+wrapInverse : String -> String
+wrapInverse string =
+    String.join ""
+        [ setInverse
+        , string
+        , unsetInverse
+        ]
+
+
 {-| Change all terminal output from this point to italic (even after program exit).
 -}
 setItalic : String
@@ -350,6 +364,20 @@ setStrikeThrough =
 unsetStrikeThrough : String
 unsetStrikeThrough =
     prefix ++ "29m"
+
+
+{-| Invert foreground and background colors for all subsequent terminal output (even after program exit).
+-}
+setInverse : String
+setInverse =
+    prefix ++ "7m"
+
+
+{-| Stop inverting foreground and background colors.
+-}
+unsetInverse : String
+unsetInverse =
+    prefix ++ "27m"
 
 
 {-| Reset all colors and styles to default.
