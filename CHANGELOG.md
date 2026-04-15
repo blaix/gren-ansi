@@ -1,3 +1,7 @@
+# 4.1.0 (2026-04-15)
+
+* Add `setInverse`, `unsetInverse`, and `wrapInverse` functions.
+
 # 4.0.0 (2026-01-07)
 
 * Update to Gren 0.6
